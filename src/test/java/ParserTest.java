@@ -1,6 +1,5 @@
 import Java8.Java8Lexer;
 import Java8.Java8Parser;
-import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -71,19 +70,56 @@ public class ParserTest {
 
     @Test
     public void parserTest4() throws IOException {
-//        File folder = new File("your/path");
-//        File[] listOfFiles = folder.listFiles();
+        File folder = new File("src/test/resources/log4j");
+        File[] listOfFiles = folder.listFiles();
 
-        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("CommandlineJavaTest.java");
-        Java8Lexer java8Lexer = new Java8Lexer(CharStreams.fromStream(inputStream));
-        CommonTokenStream tokens = new CommonTokenStream(java8Lexer);
-        Java8Parser parser = new Java8Parser(tokens);
-        ParseTree tree = parser.compilationUnit();
-        ParseTreeWalker walker = new ParseTreeWalker();
 
-        methodListener4 methodListener = new methodListener4();
-        walker.walk(methodListener,tree);
-        System.out.println((methodListener.getMethodcalled()));
+        for (int i = 0; i < listOfFiles.length; i++) {
+            if (listOfFiles[i].isFile()) {
+//                System.out.println(listOfFiles[i].getName());
+                InputStream inputStream = getClass().getClassLoader().getResourceAsStream("log4j/"+listOfFiles[i].getName());
+                Java8Lexer java8Lexer = new Java8Lexer(CharStreams.fromStream(inputStream));
+                CommonTokenStream tokens = new CommonTokenStream(java8Lexer);
+                Java8Parser parser = new Java8Parser(tokens);
+                ParseTree tree = parser.compilationUnit();
+                ParseTreeWalker walker = new ParseTreeWalker();
+
+                methodListener4 methodListener = new methodListener4();
+                walker.walk(methodListener,tree);
+                System.out.println((methodListener.getMethodcalled()));
+
+            } else if (listOfFiles[i].isDirectory()) {
+                File folderInDir = new File("src/test/resources/log4j/"+listOfFiles[i].getName());
+                File[] listOfFilesInDir = folderInDir.listFiles();
+                for (int ia = 0; ia < listOfFilesInDir.length; ia++){
+                    if (listOfFilesInDir[ia].isFile()){
+                        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("log4j/"+listOfFiles[i].getName()+"/"+listOfFilesInDir[ia].getName());
+                        Java8Lexer java8Lexer = new Java8Lexer(CharStreams.fromStream(inputStream));
+                        CommonTokenStream tokens = new CommonTokenStream(java8Lexer);
+                        Java8Parser parser = new Java8Parser(tokens);
+                        ParseTree tree = parser.compilationUnit();
+                        ParseTreeWalker walker = new ParseTreeWalker();
+
+                        methodListener4 methodListener = new methodListener4();
+                        walker.walk(methodListener,tree);
+                        System.out.println((methodListener.getMethodcalled()));
+
+//                        System.out.println("File " + listOfFilesInDir[ia].getName());
+                    }
+                }
+            }
+        }
+
+//        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("tryprintnamefile/CommandlineJavaTest.java");
+//        Java8Lexer java8Lexer = new Java8Lexer(CharStreams.fromStream(inputStream));
+//        CommonTokenStream tokens = new CommonTokenStream(java8Lexer);
+//        Java8Parser parser = new Java8Parser(tokens);
+//        ParseTree tree = parser.compilationUnit();
+//        ParseTreeWalker walker = new ParseTreeWalker();
+//
+//        methodListener4 methodListener = new methodListener4();
+//        walker.walk(methodListener,tree);
+//        System.out.println((methodListener.getMethodcalled()));
 
 
     }
