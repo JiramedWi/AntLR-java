@@ -86,12 +86,15 @@ public class ParserTest {
 
                 methodListener4 methodListener = new methodListener4();
                 walker.walk(methodListener,tree);
-                System.out.println((methodListener.getMethodcalled()));
+                System.out.println((methodListener.getClassCalled()));
+                System.out.println((methodListener.getMethodCalled()));
 
             } else if (listOfFiles[i].isDirectory()) {
                 File folderInDir = new File("src/test/resources/log4j/"+listOfFiles[i].getName());
                 File[] listOfFilesInDir = folderInDir.listFiles();
+
                 for (int ia = 0; ia < listOfFilesInDir.length; ia++){
+//                    System.out.println("File " + listOfFilesInDir[ia].getName());
                     if (listOfFilesInDir[ia].isFile()){
                         InputStream inputStream = getClass().getClassLoader().getResourceAsStream("log4j/"+listOfFiles[i].getName()+"/"+listOfFilesInDir[ia].getName());
                         Java8Lexer java8Lexer = new Java8Lexer(CharStreams.fromStream(inputStream));
@@ -102,25 +105,12 @@ public class ParserTest {
 
                         methodListener4 methodListener = new methodListener4();
                         walker.walk(methodListener,tree);
-                        System.out.println((methodListener.getMethodcalled()));
-
-//                        System.out.println("File " + listOfFilesInDir[ia].getName());
+                        System.out.println("This is a class: "+(methodListener.getClassCalled()));
+                        System.out.println("This is all method: "+(methodListener.getMethodCalled()));
                     }
                 }
             }
         }
-
-//        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("tryprintnamefile/CommandlineJavaTest.java");
-//        Java8Lexer java8Lexer = new Java8Lexer(CharStreams.fromStream(inputStream));
-//        CommonTokenStream tokens = new CommonTokenStream(java8Lexer);
-//        Java8Parser parser = new Java8Parser(tokens);
-//        ParseTree tree = parser.compilationUnit();
-//        ParseTreeWalker walker = new ParseTreeWalker();
-//
-//        methodListener4 methodListener = new methodListener4();
-//        walker.walk(methodListener,tree);
-//        System.out.println((methodListener.getMethodcalled()));
-
 
     }
 }
