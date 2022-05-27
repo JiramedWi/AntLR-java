@@ -75,21 +75,7 @@ public class ParserTest {
 
 
         for (int i = 0; i < listOfFiles.length; i++) {
-            if (listOfFiles[i].isFile()) {
-//                System.out.println(listOfFiles[i].getName());
-                InputStream inputStream = getClass().getClassLoader().getResourceAsStream("log4j/"+listOfFiles[i].getName());
-                Java8Lexer java8Lexer = new Java8Lexer(CharStreams.fromStream(inputStream));
-                CommonTokenStream tokens = new CommonTokenStream(java8Lexer);
-                Java8Parser parser = new Java8Parser(tokens);
-                ParseTree tree = parser.compilationUnit();
-                ParseTreeWalker walker = new ParseTreeWalker();
-
-                methodListenerForExtractTextual methodListener = new methodListenerForExtractTextual();
-                walker.walk(methodListener,tree);
-                System.out.println((methodListener.getClassCalled()));
-                System.out.println((methodListener.getMethodCalled()));
-
-            } else if (listOfFiles[i].isDirectory()) {
+            if (listOfFiles[i].isDirectory()) {
                 File folderInDir = new File("src/test/resources/log4j/"+listOfFiles[i].getName());
                 File[] listOfFilesInDir = folderInDir.listFiles();
 
@@ -110,7 +96,22 @@ public class ParserTest {
                     }
                 }
             }
-        }
+            else if (listOfFiles[i].isFile()) {
+//                System.out.println(listOfFiles[i].getName());
+                InputStream inputStream = getClass().getClassLoader().getResourceAsStream("log4j/"+listOfFiles[i].getName());
+                Java8Lexer java8Lexer = new Java8Lexer(CharStreams.fromStream(inputStream));
+                CommonTokenStream tokens = new CommonTokenStream(java8Lexer);
+                Java8Parser parser = new Java8Parser(tokens);
+                ParseTree tree = parser.compilationUnit();
+                ParseTreeWalker walker = new ParseTreeWalker();
 
+                methodListenerForExtractTextual methodListener = new methodListenerForExtractTextual();
+                walker.walk(methodListener,tree);
+                System.out.println((methodListener.getClassCalled()));
+                System.out.println((methodListener.getMethodCalled()));
+
+            }
+        }
+        System.out.println("This is list of file"+listOfFiles.length);
     }
 }
