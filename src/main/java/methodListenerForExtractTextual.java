@@ -7,14 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import java.io.PrintWriter;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-
-
-public class methodListener4 extends Java8BaseListener {
+public class methodListenerForExtractTextual extends Java8BaseListener {
 
     String methodName = "";
     String className = "";

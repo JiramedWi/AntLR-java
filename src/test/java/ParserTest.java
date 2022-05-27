@@ -84,7 +84,7 @@ public class ParserTest {
                 ParseTree tree = parser.compilationUnit();
                 ParseTreeWalker walker = new ParseTreeWalker();
 
-                methodListener4 methodListener = new methodListener4();
+                methodListenerForExtractTextual methodListener = new methodListenerForExtractTextual();
                 walker.walk(methodListener,tree);
                 System.out.println((methodListener.getClassCalled()));
                 System.out.println((methodListener.getMethodCalled()));
@@ -103,7 +103,7 @@ public class ParserTest {
                         ParseTree tree = parser.compilationUnit();
                         ParseTreeWalker walker = new ParseTreeWalker();
 
-                        methodListener4 methodListener = new methodListener4();
+                        methodListenerForExtractTextual methodListener = new methodListenerForExtractTextual();
                         walker.walk(methodListener,tree);
                         System.out.println("This is a class: "+(methodListener.getClassCalled()));
                         System.out.println("This is all method: "+(methodListener.getMethodCalled()));
