@@ -2,6 +2,10 @@ import Java8.Java8BaseListener;
 import Java8.Java8Parser;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,13 +36,13 @@ public class methodListenerForExtractTextual extends Java8BaseListener {
             classCalled = new HashMap<>();
         }
         classCalled.put(className, newClass);
-//        try (FileWriter writer = new FileWriter("test.txt", true);
-//             BufferedWriter bufferedWriter = new BufferedWriter(writer);
-//             PrintWriter printWriter = new PrintWriter(bufferedWriter);){
-//            printWriter.println(className);
-//        } catch (IOException i) {
-//            i.printStackTrace();
-//        }
+        try (FileWriter writer = new FileWriter("test.txt", true);
+             BufferedWriter bufferedWriter = new BufferedWriter(writer);
+             PrintWriter printWriter = new PrintWriter(bufferedWriter);){
+             printWriter.println("Class!!"+className);
+        } catch (IOException i) {
+            i.printStackTrace();
+        }
         System.out.println("Enter class: "+className);
 
     }
@@ -57,13 +61,13 @@ public class methodListenerForExtractTextual extends Java8BaseListener {
             methodCalled = new HashMap<>();
         }
         methodCalled.put(methodName, newMethod);
-//        try (FileWriter writer = new FileWriter("test.txt", true);
-//             BufferedWriter bufferedWriter = new BufferedWriter(writer);
-//             PrintWriter printWriter = new PrintWriter(bufferedWriter);){
-//            printWriter.println(methodName);
-//        } catch (IOException i) {
-//            i.printStackTrace();
-//        }
+        try (FileWriter writer = new FileWriter("test.txt", true);
+             BufferedWriter bufferedWriter = new BufferedWriter(writer);
+             PrintWriter printWriter = new PrintWriter(bufferedWriter);){
+            printWriter.println("Method!!"+methodName);
+        } catch (IOException i) {
+            i.printStackTrace();
+        }
         System.out.println("Enter Method: "+ methodName);
     }
 
@@ -83,115 +87,82 @@ public class methodListenerForExtractTextual extends Java8BaseListener {
 
     @Override
     public void enterMethodInvocation(Java8Parser.MethodInvocationContext ctx) {
-        StringBuilder sb = new StringBuilder();
-
-        TerminalNode node = ctx.Identifier();
-        String callMethod = null;
-        if (node != null){
-        callMethod = ctx.Identifier().getText();
-        }
-        System.out.println(   callMethod);
+//        String callMethod = null;
+//        if (node != null){
+//        callMethod = ctx.Identifier().getText();
+//        }
+//        System.out.println(callMethod);
 //            try (FileWriter writer = new FileWriter("test.txt", true);
 //                 BufferedWriter bufferedWriter = new BufferedWriter(writer);
 //                 PrintWriter printWriter = new PrintWriter(bufferedWriter);){
-//                printWriter.println(  callMethod);
+//                printWriter.println("MethodName!!"+callMethod);
 //            } catch (IOException i) {
 //                i.printStackTrace();
 //            }
-        if (ctx.getChild(0) instanceof Java8Parser.TypeNameContext){
-            System.out.println(  ctx.getChild(0).getText());
-//                try (FileWriter writer = new FileWriter("test.txt", true);
-//                     BufferedWriter bufferedWriter = new BufferedWriter(writer);
-//                     PrintWriter printWriter = new PrintWriter(bufferedWriter);){
-//                    printWriter.println(  ctx.getChild(0).getText());
-//                } catch (IOException i) {
-//                    i.printStackTrace();
-//                }
-            if (ctx.argumentList() != null) {
-                for (int i = 0; i < ctx.argumentList().expression().size(); i++) {
-                    System.out.println(  
-                            ctx.argumentList().expression(i).getText());
-//                    try (FileWriter writer = new FileWriter("test.txt", true);
-//                         BufferedWriter bufferedWriter = new BufferedWriter(writer);
-//                         PrintWriter printWriter = new PrintWriter(bufferedWriter);){
-//                        printWriter.println( ctx.argumentList().expression(i).getText());
-//                    } catch (IOException a) {
-//                        a.printStackTrace();
-//                    }
-                }
-            }
-        }
-        if (ctx.getChild(0) instanceof Java8Parser.PrimaryContext){
-            System.out.println(  ctx.getChild(0).getText());
-//                try (FileWriter writer = new FileWriter("test.txt", true);
-//                     BufferedWriter bufferedWriter = new BufferedWriter(writer);
-//                     PrintWriter printWriter = new PrintWriter(bufferedWriter);){
-//                    printWriter.println(  ctx.getChild(0).getText());
-//                } catch (IOException i) {
-//                    i.printStackTrace();
-//                }
-            if (ctx.argumentList() != null) {
-                for (int i = 0; i < ctx.argumentList().expression().size(); i++) {
-                    System.out.println(  
-                            ctx.argumentList().expression(i).getText()  );
-//                    try (FileWriter writer = new FileWriter("test.txt", true);
-//                         BufferedWriter bufferedWriter = new BufferedWriter(writer);
-//                         PrintWriter printWriter = new PrintWriter(bufferedWriter);){
-//                        printWriter.println( ctx.argumentList().expression(i).getText());
-//                    } catch (IOException a) {
-//                        a.printStackTrace();
-//                    }
-                }
-            }
-        }
         if (ctx.getChild(0)  instanceof Java8Parser.MethodNameContext){
             System.out.println(  ctx.getChild(0).getText());
-//                try (FileWriter writer = new FileWriter("test.txt", true);
-//                     BufferedWriter bufferedWriter = new BufferedWriter(writer);
-//                     PrintWriter printWriter = new PrintWriter(bufferedWriter);){
-//                    printWriter.println(  ctx.getChild(0).getText());
-//                } catch (IOException i) {
-//                    i.printStackTrace();
-//                }
-            if (ctx.argumentList() != null) {
-                for (int i = 0; i < ctx.argumentList().expression().size(); i++) {
-                    System.out.println(  
-                            ctx.argumentList().expression(i).getText());
-//                    try (FileWriter writer = new FileWriter("test.txt", true);
-//                         BufferedWriter bufferedWriter = new BufferedWriter(writer);
-//                         PrintWriter printWriter = new PrintWriter(bufferedWriter);){
-//                        printWriter.println( ctx.argumentList().expression(i).getText());
-//                    } catch (IOException a) {
-//                        a.printStackTrace();
-//                    }
-                }
+            try (FileWriter writer = new FileWriter("test.txt", true);
+                 BufferedWriter bufferedWriter = new BufferedWriter(writer);
+                 PrintWriter printWriter = new PrintWriter(bufferedWriter);){
+                printWriter.println("MethodName!!"+ctx.getChild(0).getText());
+            } catch (IOException i) {
+                i.printStackTrace();
             }
+            argumentList(ctx);
 
+        }
+        if (ctx.getChild(0) instanceof Java8Parser.TypeNameContext){
+            System.out.println(  ctx.getChild(0).getText());
+                try (FileWriter writer = new FileWriter("test.txt", true);
+                     BufferedWriter bufferedWriter = new BufferedWriter(writer);
+                     PrintWriter printWriter = new PrintWriter(bufferedWriter);){
+                    printWriter.println("TypeName!!"+ctx.getChild(0).getText());
+                } catch (IOException i) {
+                    i.printStackTrace();
+                }
+            argumentList(ctx);
         }
         if (ctx.getChild(0)  instanceof Java8Parser.ExpressionContext){
             System.out.println(  ctx.getChild(0).getText());
-//                try (FileWriter writer = new FileWriter("test.txt", true);
-//                     BufferedWriter bufferedWriter = new BufferedWriter(writer);
-//                     PrintWriter printWriter = new PrintWriter(bufferedWriter);){
-//                    printWriter.println(  ctx.getChild(0).getText());
-//                } catch (IOException i) {
-//                    i.printStackTrace();
-//                }
-            if (ctx.argumentList() != null) {
-                for (int i = 0; i < ctx.argumentList().expression().size(); i++) {
-                    System.out.println(  
-                            ctx.argumentList().expression(i).getText());
-//                    try (FileWriter writer = new FileWriter("test.txt", true);
-//                         BufferedWriter bufferedWriter = new BufferedWriter(writer);
-//                         PrintWriter printWriter = new PrintWriter(bufferedWriter);){
-//                        printWriter.println( ctx.argumentList().expression(i).getText());
-//                    } catch (IOException a) {
-//                        a.printStackTrace();
-//                    }
+                try (FileWriter writer = new FileWriter("test.txt", true);
+                     BufferedWriter bufferedWriter = new BufferedWriter(writer);
+                     PrintWriter printWriter = new PrintWriter(bufferedWriter);){
+                    printWriter.println("ExpressionName!!"+ctx.getChild(0).getText());
+                } catch (IOException i) {
+                    i.printStackTrace();
+                }
+            argumentList(ctx);
+        }
+        if (ctx.getChild(0) instanceof Java8Parser.PrimaryContext){
+            System.out.println(  ctx.getChild(0).getText());
+                try (FileWriter writer = new FileWriter("test.txt", true);
+                     BufferedWriter bufferedWriter = new BufferedWriter(writer);
+                     PrintWriter printWriter = new PrintWriter(bufferedWriter);){
+                    printWriter.println("PrimaryName!!"+ctx.getChild(0).getText());
+                } catch (IOException i) {
+                    i.printStackTrace();
+                }
+            argumentList(ctx);
+        }
+        if (ctx.getChild(0) == null){
+            argumentList(ctx);
+        }
+
+    }
+
+    private void argumentList(Java8Parser.MethodInvocationContext ctx) {
+        if (ctx.argumentList() != null) {
+            for (int i = 0; i < ctx.argumentList().expression().size(); i++) {
+                System.out.println(
+                        ctx.argumentList().expression(i).getText()  );
+                try (FileWriter writer = new FileWriter("test.txt", true);
+                     BufferedWriter bufferedWriter = new BufferedWriter(writer);
+                     PrintWriter printWriter = new PrintWriter(bufferedWriter);){
+                    printWriter.println("argumentName!!"+ctx.argumentList().expression(i).getText());
+                } catch (IOException a) {
+                    a.printStackTrace();
                 }
             }
         }
-
-
     }
 }
