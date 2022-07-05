@@ -69,6 +69,21 @@ public class ParserTest {
     }
 
     @Test
+    public void passerTestOneFile() throws IOException {
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("log4j/varia/ERFATestCase.java");
+        Java8Lexer java8Lexer = new Java8Lexer(CharStreams.fromStream(inputStream));
+        CommonTokenStream tokens = new CommonTokenStream(java8Lexer);
+        Java8Parser parser = new Java8Parser(tokens);
+        ParseTree tree = parser.compilationUnit();
+        ParseTreeWalker walker = new ParseTreeWalker();
+
+        methodListenerForExtractTextual methodListener = new methodListenerForExtractTextual();
+        walker.walk(methodListener,tree);
+        System.out.println("This is a class: "+(methodListener.getClassCalled()));
+        System.out.println("This is all method: "+(methodListener.getMethodCalled()));
+    }
+
+    @Test
     public void parserTest4() throws IOException {
         File folder = new File("src/test/resources/log4j");
         File[] listOfFiles = folder.listFiles();
