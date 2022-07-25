@@ -70,7 +70,7 @@ public class ParserTest {
 
     @Test
     public void passerTestOneFile() throws IOException {
-        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("log4j/varia/ERFATestCase.java");
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("log4j/xml/XMLLayoutTestCase.java");
         Java8Lexer java8Lexer = new Java8Lexer(CharStreams.fromStream(inputStream));
         CommonTokenStream tokens = new CommonTokenStream(java8Lexer);
         Java8Parser parser = new Java8Parser(tokens);
@@ -84,7 +84,7 @@ public class ParserTest {
     }
 
     @Test
-    public void parserTest4() throws IOException {
+    public void parserTestMultipleFile() throws IOException {
         File folder = new File("src/test/resources/log4j");
         File[] listOfFiles = folder.listFiles();
 
